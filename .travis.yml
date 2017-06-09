@@ -1,0 +1,4 @@
+language: node_js
+install:
+  - npm install
+  - CUBS_URL=$CUBS_URL CUBS_USERNAME=$CUBS_USERNAME CUBS_SALT=$CUBS_SALT CUBS_SECURITY_KEY=$CUBS_SECURITY_KEY npm test

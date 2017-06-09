@@ -1,0 +1,25 @@
+{
+  "name": "cubs-grants-parser",
+  "version": "1.0.0",
+  "description": "CUBS Grants parser",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:comicrelief/cubs-grants-parser.git"
+  },
+  "author": "Peter Vanhee",
+  "homepage": "https://github.com/comicrelief/cubs-grants-parser",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "chai-things": "^0.2.0",
+    "mocha": "^3.4.2",
+    "node-env-file": "^0.1.8"
+  },
+  "dependencies": {
+    "request": "^2.81.0"
+  }
+}
