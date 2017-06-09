@@ -23,7 +23,7 @@ describe('CUBS Parser', function() {
     // Use a higher timeout to fetch the remote file
     this.timeout(90000);
 
-    cubs.parseGrants.then(function(grants) {
+    cubs.parseGrants().then(function(grants) {
       expect(grants).to.be.an('array').and.to.have.lengthOf.at.least(1);
       expect(grants[0]).to.be.an('object');
       grants.should.all.have.property('AmountAwarded');
