@@ -14,6 +14,20 @@ describe('CUBS Parser', function() {
     expect(process.env.CUBS_SECURITY_KEY).to.not.be.an('undefined', 'CUBS_SECURITY_KEY not set');
   });
 
+  it('should parse countries data', function() {
+    // Use a higher timeout to fetch the remote file
+    this.timeout(90000);
+
+    return cubs.parseCountries()
+      .then(function(countries) {
+        expect(countries).to.be.an('array').and.to.have.lengthOf.at.least(1);
+        expect(countries[0]).to.be.an('object');
+        countries.should.all.have.property('CountryCode');
+        countries.should.all.have.property('CountryID');
+        countries.should.all.have.property('CountryName');
+      });
+  });
+
   it('should parse grants data', function() {
     // Use a higher timeout to fetch the remote file
     this.timeout(90000);

@@ -11,17 +11,23 @@ const qs = {
   SecurityKey: process.env.CUBS_SECURITY_KEY,
 };
 
+constructUrl = (method) => {
+  return process.env.CUBS_URL + '/' + method;
+};
+
+cleanupJson = (data) => {
+  const json = data
+    .replace('<?xml version="1.0" encoding="utf-8"?>', '')
+    .replace('<string xmlns="http://tempuri.org/">', '')
+    .replace('</string>', '')
+    .replace(/\\\\"/gi, '');
+  return JSON.parse(json);
+};
+
 module.exports = {
 
   parseCountries() {
-    // const method = 'GetLiveGrantsProjects';
-  },
-
-  parseGrants() {
-    const method = 'GetLiveGrantsProjects';
-    // const method = 'GetCountries';
-    const url = process.env.CUBS_URL + '/' + method;
-    // console.log(qs);
+    const url = constructUrl('GetCountries');
 
     return new Promise((resolve, reject) => {
       request.get({
@@ -32,14 +38,25 @@ module.exports = {
           reject(err);
         }
 
-        // Do some data cleanup
-        let data = body
-          .replace('<?xml version="1.0" encoding="utf-8"?>', '')
-          .replace('<string xmlns="http://tempuri.org/">', '')
-          .replace('</string>', '')
-          .replace(/\\\\"/gi, '');
+        const data = cleanupJson(body);
+        resolve(data.Countries.Country);
+      });
+    });
+  },
 
-        data = JSON.parse(data);
+  parseGrants() {
+    const url = constructUrl('GetLiveGrantsProjects');
+
+    return new Promise((resolve, reject) => {
+      request.get({
+        url,
+        qs,
+      }, (err, response, body) => {
+        if (err) {
+          reject(err);
+        }
+
+        const data = cleanupJson(body);
         resolve(data.GrantsProjects.GrantsProject);
       });
     });
