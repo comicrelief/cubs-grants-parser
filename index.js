@@ -1,18 +1,27 @@
 const request = require('request');
+const env = require('node-env-file');
+
+// Load API credentials from a local environment file if available
+env(__dirname + '/.env', { raise: false });
+
+// put in request with promises
+const qs = {
+  Username: process.env.CUBS_USERNAME,
+  Salt: process.env.CUBS_SALT,
+  SecurityKey: process.env.CUBS_SECURITY_KEY,
+};
 
 module.exports = {
+
+  parseCountries() {
+    // const method = 'GetLiveGrantsProjects';
+  },
 
   parseGrants() {
     const method = 'GetLiveGrantsProjects';
     // const method = 'GetCountries';
     const url = process.env.CUBS_URL + '/' + method;
-
-    // put in request with promises
-    const qs = {
-      Username: process.env.CUBS_USERNAME,
-      Salt: process.env.CUBS_SALT,
-      SecurityKey: process.env.CUBS_SECURITY_KEY,
-    };
+    // console.log(qs);
 
     return new Promise((resolve, reject) => {
       request.get({
