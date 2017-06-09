@@ -1,4 +1,4 @@
-# cubs-grants-parser [![Build Status][travis-image]][travis-url]
+# cubs-grants-parser [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 > Parses CUBS Grants Data from our Comic Relief's CUBS grants database and produces JSON
 
 ## Installation
@@ -17,5 +17,7 @@ cp .env.example .env
 
 and replace with actual API credentials.
 
-[travis-image]: https://travis-ci.org/comicrelief/cubs-grants-parser.svg
+[npm-image]: https://badge.fury.io/js/%40comicrelief%2Fcubs-grants-parser.svg
+[npm-url]: https://www.npmjs.com/package/@comicrelief/cubs-grants-parser
+[travis-image]: https://travis-ci.org/comicrelief/cubs-grants-parser.svg?branch=master
 [travis-url]: https://travis-ci.org/comicrelief/cubs-grants-parser
