@@ -14,12 +14,11 @@ module.exports = {
       SecurityKey: process.env.CUBS_SECURITY_KEY,
     };
 
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       request.get({
         url,
         qs,
       }, (err, response, body) => {
-
         if (err) {
           reject(err);
         }
@@ -35,7 +34,6 @@ module.exports = {
         resolve(data.GrantsProjects.GrantsProject);
       });
     });
-
   },
 
 };
