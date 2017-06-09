@@ -8,15 +8,15 @@ chai.use(require('chai-things'));
 
 // env(__dirname + '/../.env');
 
-describe('CUBS Parser', () => {
-  it('should have access to environment variables for secrets management', () => {
+describe('CUBS Parser', function() {
+  it('should have access to environment variables for secrets management', function() {
     expect(process.env.CUBS_URL).to.not.be.an('undefined', 'CUBS_URL not set');
     expect(process.env.CUBS_USERNAME).to.not.be.an('undefined', 'CUBS_USERNAME not set');
     expect(process.env.CUBS_SALT).to.not.be.an('undefined', 'CUBS_SALT not set');
     expect(process.env.CUBS_SECURITY_KEY).to.not.be.an('undefined', 'CUBS_SECURITY_KEY not set');
   });
 
-  it('should parse grants data', (done) => {
+  it('should parse grants data', function(done) {
     // Use a higher timeout to fetch the remote file
     this.timeout(90000);
     cubs.parseGrants((grants) => {
