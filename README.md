@@ -1,4 +1,4 @@
-# cubs-parser [![Build Status][travis-image]][travis-url]
+# cubs-grants-parser [![Build Status][travis-image]][travis-url]
 > Parses CUBS Grants Data from our Comic Relief's CUBS grants database and produces JSON
 
 ## Installation

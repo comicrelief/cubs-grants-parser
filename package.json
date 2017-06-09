@@ -1,6 +1,6 @@
 {
-  "name": "cubs-grants-parser",
-  "version": "1.0.0",
+  "name": "@comicrelief/cubs-grants-parser",
+  "version": "0.0.1",
   "description": "CUBS Grants parser",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git@github.com:comicrelief/cubs-grants-parser.git"
   },
-  "author": "Peter Vanhee",
+  "author": "Comic Relief",
   "homepage": "https://github.com/comicrelief/cubs-grants-parser",
   "license": "MIT",
   "devDependencies": {
