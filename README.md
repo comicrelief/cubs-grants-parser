@@ -17,5 +17,5 @@ cp .env.example .env
 
 and replace with actual API credentials.
 
-[travis-image]: https://travis-ci.org/comicrelief/cubs-parser.svg
-[travis-url]: https://travis-ci.org/comicrelief/cubs-parser
+[travis-image]: https://travis-ci.org/comicrelief/cubs-grants-parser.svg
+[travis-url]: https://travis-ci.org/comicrelief/cubs-grants-parser
