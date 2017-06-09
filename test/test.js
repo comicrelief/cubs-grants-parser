@@ -1,14 +1,17 @@
 const chai = require('chai');
 const cubs = require('../index');
-// const env = require('node-env-file');
+const env = require('node-env-file');
 const expect = chai.expect;
 
 chai.should();
 chai.use(require('chai-things'));
 
-// env(__dirname + '/../.env');
-
 describe('CUBS Parser', function() {
+  before(function() {
+    // Load API credentials from a local environment file if available
+    env(__dirname + '/../.env', {raise: false});
+  });
+
   it('should have access to environment variables for secrets management', function() {
     expect(process.env.CUBS_URL).to.not.be.an('undefined', 'CUBS_URL not set');
     expect(process.env.CUBS_USERNAME).to.not.be.an('undefined', 'CUBS_USERNAME not set');
