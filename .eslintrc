@@ -1,0 +1,14 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "arrow-body-style": "off",
+    "class-methods-use-this": "off",
+    "global-require": "off",
+    "import/no-dynamic-require" : "off",
+    "new-cap": "off",
+    "no-path-concat": "off",
+    "no-undef": "off",
+    "prefer-template": "off",
+    "import/no-unresolved": "off"
+  }
+}
