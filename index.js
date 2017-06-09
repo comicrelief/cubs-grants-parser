@@ -29,6 +29,7 @@ module.exports = {
   parseCountries() {
     const url = constructUrl('GetCountries');
 
+
     return new Promise((resolve, reject) => {
       request.get({
         url,
@@ -44,13 +45,16 @@ module.exports = {
     });
   },
 
-  parseGrants() {
-    const url = constructUrl('GetLiveGrantsProjects');
+  parseGrantsByCountry(countryID) {
+    const url = constructUrl('GetGrantsProjectsByCountry');
+
+    const qs2 = qs;
+    qs2.CountryID = countryID;
 
     return new Promise((resolve, reject) => {
       request.get({
         url,
-        qs,
+        qs: qs2,
       }, (err, response, body) => {
         if (err) {
           reject(err);
@@ -59,6 +63,40 @@ module.exports = {
         const data = cleanupJson(body);
         resolve(data.GrantsProjects.GrantsProject);
       });
+    });
+  },
+
+  parseGrants() {
+    const url = constructUrl('GetLiveGrantsProjects');
+
+    return new Promise((resolve, reject) => {
+      this.parseCountries()
+        .then((countries) => {
+          request.get({
+            url,
+            qs,
+          }, (err, response, body) => {
+            if (err) {
+              reject(err);
+            }
+
+            let data = cleanupJson(body);
+
+            data = data.GrantsProjects.GrantsProject;
+            // data.forEach((grant, i) => {
+            //   countries.forEach((country) => {
+
+            //     if (country.CountryID == grant.SubRegionID) {
+            //       data[i].CountryCode = country.CountryCode;
+            //       data[i].CountryID = country.CountryID;
+            //       data[i].CountryName = country.CountryName;
+            //     }
+            //   });
+            // });
+
+            resolve(data);
+          });
+        });
     });
   },
 
