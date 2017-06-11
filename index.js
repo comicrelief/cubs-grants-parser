@@ -60,8 +60,15 @@ module.exports = {
           reject(err);
         }
 
-        const data = cleanupJson(body);
-        resolve(data.GrantsProjects.GrantsProject);
+        let data = cleanupJson(body);
+        data = data.GrantsProjects.GrantsProject;
+
+        // Wrap into array as some countries only return a single grant
+        if (!(data instanceof Array)) {
+          data = [data];
+        }
+
+        resolve(data);
       });
     });
   },
@@ -70,33 +77,50 @@ module.exports = {
     const url = constructUrl('GetLiveGrantsProjects');
 
     return new Promise((resolve, reject) => {
-      this.parseCountries()
-        .then((countries) => {
-          request.get({
-            url,
-            qs,
-          }, (err, response, body) => {
-            if (err) {
-              reject(err);
-            }
+      request.get({
+        url,
+        qs,
+      }, (err, response, body) => {
+        if (err) {
+          reject(err);
+        }
 
-            let data = cleanupJson(body);
+        let data = cleanupJson(body);
+        data = data.GrantsProjects.GrantsProject;
+        resolve(data);
+      });
+    });
+  },
 
-            data = data.GrantsProjects.GrantsProject;
-            // data.forEach((grant, i) => {
-            //   countries.forEach((country) => {
-
-            //     if (country.CountryID == grant.SubRegionID) {
-            //       data[i].CountryCode = country.CountryCode;
-            //       data[i].CountryID = country.CountryID;
-            //       data[i].CountryName = country.CountryName;
-            //     }
-            //   });
-            // });
-
-            resolve(data);
-          });
+  parseGrantsWithCountries() {
+    return new Promise((resolve, reject) => {
+      const countriesP = this.parseCountries();
+      const grantsP = countriesP.then((countries) => {
+        const countryP = countries.map((country) => {
+          return this.parseGrantsByCountry(country.CountryID);
         });
+        return Promise.all(countryP);
+      });
+
+      grantsP.then((grants) => {
+        countriesP.then((countries) => {
+          const grantsAnnotated = grants;
+          grants.forEach((grantsPerCountry, i) => {
+            grantsPerCountry.forEach((grant, j) => {
+              countries.forEach((country) => {
+                if (country.CountryName.toUpperCase() === grant.Country) {
+                  grantsAnnotated[i][j].CountryName = country.CountryName;
+                  grantsAnnotated[i][j].CountryID = country.CountryID;
+                  grantsAnnotated[i][j].CountryCode = country.CountryCode;
+                }
+              });
+            });
+          });
+
+          const grantsFlattened = [].concat(...grantsAnnotated);
+          return resolve(grantsFlattened);
+        });
+      });
     });
   },
 
