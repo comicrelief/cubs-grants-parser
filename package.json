@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "request": "^2.81.0",
-    "node-env-file": "^0.1.8" 
+    "node-env-file": "^0.1.8"
   }
 }
