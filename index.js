@@ -101,25 +101,42 @@ module.exports = {
         });
         return Promise.all(countryP);
       });
+      const grantsAllP = this.parseGrants();
 
       grantsP.then((grants) => {
         countriesP.then((countries) => {
-          const grantsAnnotated = grants;
-          grants.forEach((grantsPerCountry, i) => {
-            grantsPerCountry.forEach((grant, j) => {
-              countries.forEach((country) => {
-                if (country.CountryName.toUpperCase() === grant.Country) {
-                  grantsAnnotated[i][j].CountryName = country.CountryName;
-                  grantsAnnotated[i][j].CountryID = country.CountryID;
-                  grantsAnnotated[i][j].CountryCode = country.CountryCode;
-                }
+          grantsAllP.then((grantsAll) => {
+            const grantsAnnotated = grants;
+            grants.forEach((grantsPerCountry, i) => {
+              grantsPerCountry.forEach((grant, j) => {
+                // Annotate each grant with detailed country info
+                countries.forEach((country) => {
+                  if (country.CountryName.toUpperCase() === grant.Country) {
+                    grantsAnnotated[i][j].CountryName = country.CountryName;
+                    grantsAnnotated[i][j].CountryID = country.CountryID;
+                    grantsAnnotated[i][j].CountryCode = country.CountryCode;
+                  }
+                });
+
+                // Annotate each grant with detailed grant info
+                grantsAll.forEach((grantExtra) => {
+                  if (grantExtra.GrantsProjectID === grant.GrantsProjectID) {
+                    grantsAnnotated[i][j].Lat = grantExtra.Lat;
+                    grantsAnnotated[i][j].Lng = grantExtra.Lng;
+                    grantsAnnotated[i][j].PartPostcode = grantExtra.PartPostcode;
+                    grantsAnnotated[i][j].Region = grantExtra.Region;
+                    grantsAnnotated[i][j].SubRegionID = grantExtra.SubRegionID;
+                  }
+                });
               });
             });
-          });
 
-          const grantsFlattened = [].concat(...grantsAnnotated);
-          return resolve(grantsFlattened);
+            const grantsFlattened = [].concat(...grantsAnnotated);
+            return resolve(grantsFlattened);
+          });
         });
+      }).catch((reason) => {
+        return reject(reason);
       });
     });
   },
