@@ -1,6 +1,6 @@
 {
   "name": "@comicrelief/cubs-grants-parser",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "CUBS Grants parser",
   "main": "index.js",
   "scripts": {
