@@ -96,6 +96,9 @@ describe('CUBS Parser', function() {
         grants.should.all.have.property('Region');
         grants.should.all.have.property('StartDate');
         grants.should.all.have.property('SubRegionID');
+        grants.should.all.have.property('CountryCode');
+        grants.should.all.have.property('CountryID');
+        grants.should.all.have.property('CountryName');
       });
   });
 });
