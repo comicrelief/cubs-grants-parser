@@ -49,33 +49,6 @@ describe('CUBS Parser', function() {
       });
   });
 
-  it('should parse grants data with countries ', function() {
-    // Use a higher timeout to fetch the remote file
-    this.timeout(90000);
-
-    return cubs.parseGrantsWithCountries()
-      .then(function(grants) {
-        expect(grants).to.be.an('array').and.to.have.lengthOf.at.least(1);
-        expect(grants[0]).to.be.an('object');
-        grants.should.all.have.property('AmountAwarded');
-        grants.should.all.have.property('CopywrittenSummary');
-        grants.should.all.have.property('GrantsProjectID');
-        grants.should.all.have.property('Issue');
-        grants.should.all.have.property('IssueID');
-        // grants.should.all.have.property('Lat');
-        // grants.should.all.have.property('Lng');
-        grants.should.all.have.property('Name');
-        // grants.should.all.have.property('PartPostcode');
-        // grants.should.all.have.property('Region');
-        grants.should.all.have.property('StartDate');
-        // grants.should.all.have.property('SubRegionID');
-        grants.should.all.have.property('CountryCode');
-        grants.should.all.have.property('CountryID');
-        grants.should.all.have.property('CountryName');
-      });
-  });
-
-
   it('should parse grants data', function() {
     // Use a higher timeout to fetch the remote file
     this.timeout(90000);
