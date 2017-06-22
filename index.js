@@ -1,5 +1,6 @@
 const request = require('request');
 const env = require('node-env-file');
+const md5 = require('md5');
 
 // Load API credentials from a local environment file if available
 env(__dirname + '/.env', { raise: false });
@@ -13,6 +14,30 @@ const qs = {
 
 constructUrl = (method) => {
   return process.env.CUBS_URL + '/' + method;
+};
+
+dedupeGrants = (array) => {
+  const tmp = {};
+  return array.reduce((p, c) => {
+    const k = hashGrant(c);
+    if (tmp[k]) return p;
+    tmp[k] = true;
+    return p.concat(c);
+  }, []);
+};
+
+hashGrant = (grant) => {
+  const grantString = grant.AmountAwarded
+    + grant.CopywrittenSummary
+    + grant.CountryID
+    + grant.IssueID
+    + grant.Name
+    + grant.PartPostcode
+    + grant.Region
+    + grant.StartDate
+    + grant.SubRegionID
+    + grant.AmountAwarded;
+  return md5(grantString);
 };
 
 cleanupJson = (data) => {
@@ -87,6 +112,12 @@ module.exports = {
 
         let data = cleanupJson(body);
         data = data.GrantsProjects.GrantsProject;
+
+        // Dedupe grants, this leads to loss of grants that are similar
+        // but have different grants ids. To be sorted out with the data
+        // provider in CUBS.
+        data = dedupeGrants(data);
+
         resolve(data);
       });
     });

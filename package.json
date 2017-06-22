@@ -25,7 +25,8 @@
     "mocha": "^3.4.2"
   },
   "dependencies": {
-    "request": "^2.81.0",
-    "node-env-file": "^0.1.8"
+    "md5": "^2.2.1",
+    "node-env-file": "^0.1.8",
+    "request": "^2.81.0"
   }
 }
