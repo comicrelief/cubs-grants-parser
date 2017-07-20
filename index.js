@@ -16,6 +16,7 @@ constructUrl = (method) => {
   return process.env.CUBS_URL + '/' + method;
 };
 
+// Legacy method: to be removed after dupes have been fully cleared out
 dedupeGrants = (array) => {
   const tmp = {};
   return array.reduce((p, c) => {
@@ -112,11 +113,6 @@ module.exports = {
 
         let data = cleanupJson(body);
         data = data.GrantsProjects.GrantsProject;
-
-        // Dedupe grants, this leads to loss of grants that are similar
-        // but have different grants ids. To be sorted out with the data
-        // provider in CUBS.
-        data = dedupeGrants(data);
 
         resolve(data);
       });
